@@ -20,19 +20,19 @@ midi_file = "/song.mid"
 
 # Create a custom player class
 class Custom_Player(adafruit_midi_parser.MIDIPlayer):
-    def on_note_on(self, note, velocity, channel):
+    def on_note_on(self, note, velocity, channel): # ruff: noqa: PLR6301
         print(f"Note On: {note}, velocity: {velocity}")
         led.value = True
-   
-    def on_note_off(self, note, velocity, channel):
+
+    def on_note_off(self, note, velocity, channel): # ruff: noqa: PLR6301
         print(f"Note Off: {note}")
         led.value = False
-   
-    def on_end_of_track(self, track):
+
+    def on_end_of_track(self, track): # ruff: noqa: PLR6301
         print(f"End of track {track}")
         time.sleep(5)
-   
-    def on_playback_complete(self):
+
+    def on_playback_complete(self): # ruff: noqa: PLR6301
         print("Playback complete, restarting...")
         # Flash LED to indicate end of sequence
         for _ in range(3):
@@ -47,22 +47,22 @@ print("===============")
 # Check if the file exists
 if midi_file[1:] in os.listdir('/'):
     print(f"Found MIDI file {midi_file}")
-   
+
     # Create a MIDIParser instance
     parser = adafruit_midi_parser.MIDIParser(midi_file)
-   
+
     # Parse the file
     parser.parse()
     print(f"Successfully parsed! Found {len(parser.events)} events.")
     print(f"BPM: {parser.bpm:.1f}")
     print(f"Note Count: {parser.note_count}")
-    
+
     # Create our player and enable looping
     player = Custom_Player(parser)
-    
+
     # Start playback
     print("Starting playback...")
-    
+
     # Main loop
     while True:
         # Update the player (process events)
