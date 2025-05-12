@@ -644,8 +644,7 @@ class MIDIPlayer:
 
         Call this method in your main loop to continuously play the MIDI file.
 
-        :param Optional[bool] loop: Set to True to enable looping,
-        False to disable, or None to leave unchanged
+        :param Optional[bool] loop: Set to True to enable looping, False to disable, or None
         :return: True if an event was processed, False otherwise
         :rtype: bool
         """
