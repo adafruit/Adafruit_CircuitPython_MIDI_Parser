@@ -11,7 +11,7 @@ import os
 
 import adafruit_midi_parser
 
-midi_file = "/song.mid"  # Change this to your MIDI file name
+midi_file = "/song.mid"  # Your MIDI file name
 
 print("MIDI File Analyzer")
 print("=================")
