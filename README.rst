@@ -89,6 +89,7 @@ Usage Example
 =============
 
 .. code-block:: python
+
     import adafruit_midi_parser
 
 Documentation
