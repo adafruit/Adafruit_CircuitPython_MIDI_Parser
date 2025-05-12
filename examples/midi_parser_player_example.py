@@ -20,19 +20,19 @@ midi_file = "/song.mid"
 
 # Create a custom player class
 class Custom_Player(adafruit_midi_parser.MIDIPlayer):
-    def on_note_on(self, note, velocity, channel): # ruff: noqa: PLR6301
+    def on_note_on(self, note, velocity, channel): # noqa: PLR6301
         print(f"Note On: {note}, velocity: {velocity}")
         led.value = True
 
-    def on_note_off(self, note, velocity, channel): # ruff: noqa: PLR6301
+    def on_note_off(self, note, velocity, channel): # noqa: PLR6301
         print(f"Note Off: {note}")
         led.value = False
 
-    def on_end_of_track(self, track): # ruff: noqa: PLR6301
+    def on_end_of_track(self, track): # noqa: PLR6301
         print(f"End of track {track}")
         time.sleep(5)
 
-    def on_playback_complete(self): # ruff: noqa: PLR6301
+    def on_playback_complete(self): # noqa: PLR6301
         print("Playback complete, restarting...")
         # Flash LED to indicate end of sequence
         for _ in range(3):
