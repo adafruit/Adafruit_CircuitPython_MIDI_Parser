@@ -101,7 +101,7 @@ class MIDIParser:
         return self._num_tracks
 
     @property
-    def is_parsed(self) -> bool:
+    def parsed(self) -> bool:
         """Whether the MIDI file has been successfully parsed."""
         return self._parsed
 
@@ -138,7 +138,7 @@ class MIDIParser:
         return event
 
     @property
-    def has_more_events(self) -> bool:
+    def more_events(self) -> bool:
         """Whether there are more events to be played."""
         return self._current_event_index < len(self._events)
 
@@ -477,7 +477,7 @@ class MIDIPlayer:
         :param MIDIParser midi_parser: A MIDIParser instance
         :raises MIDIParseError: If the provided parser hasn't parsed a file yet
         """
-        if not midi_parser.is_parsed:
+        if not midi_parser.parsed:
             raise MIDIParseError("MIDI parser must parse a file before creating a player")
 
         self._parser: MIDIParser = midi_parser
@@ -499,14 +499,14 @@ class MIDIPlayer:
     @restart_delay.setter
     def restart_delay(self, delay: float) -> None:
         """
-        Set the delay in seconds before restarting playback when looping.
+        The delay in seconds before restarting playback when looping.
 
         :param float delay: Delay in seconds (minimum 0.1s)
         """
         self._restart_delay = max(0.1, float(delay))  # Minimum 0.1 second
 
     @property
-    def is_playing(self) -> bool:
+    def playing(self) -> bool:
         """Whether the player is currently playing."""
         return self._playing
 
@@ -523,14 +523,13 @@ class MIDIPlayer:
     @loop_playback.setter
     def loop_playback(self, value: bool) -> None:
         """
-        Set whether playback should automatically loop when finished.
 
         :param bool value: True to enable looping, False to disable
         """
         self._loop_playback = bool(value)
 
     @property
-    def is_finished(self) -> bool:
+    def finished(self) -> bool:
         """Whether playback has completed (and not set to loop)."""
         return self._finished
 
