@@ -21,9 +21,9 @@ file_list = os.listdir("/")
 # Check if the file exists
 if midi_file[1:] in file_list:
     print(f"\nFound MIDI file {midi_file}")
-    parser = adafruit_midi_parser.MIDIParser(midi_file)
+    parser = adafruit_midi_parser.MIDIParser()
     print("\nParsing MIDI file...")
-    parser.parse()
+    parser.parse(midi_file)
     print("\nMIDI File Information:")
     print("=====================")
     print(f"Format Type: {parser.format_type}")

@@ -54,10 +54,10 @@ if midi_file[1:] in os.listdir("/"):
     print(f"Found MIDI file {midi_file}")
 
     # Create a MIDIParser instance
-    parser = adafruit_midi_parser.MIDIParser(midi_file)
+    parser = adafruit_midi_parser.MIDIParser()
 
     # Parse the file
-    parser.parse()
+    parser.parse(midi_file)
     print(f"Successfully parsed! Found {len(parser.events)} events.")
     print(f"BPM: {parser.bpm:.1f}")
     print(f"Note Count: {parser.note_count}")
