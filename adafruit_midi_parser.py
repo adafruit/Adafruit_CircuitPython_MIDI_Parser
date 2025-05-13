@@ -655,7 +655,7 @@ class MIDIPlayer:
             self._last_event_time = time.monotonic()
             self._next_event_delay = 0.05
             self._playing = True
-        if not self._parser.is_parsed:
+        if not self._parser.parsed:
             raise MIDIParseError("Cannot play: MIDI parser must parse a file first")
 
         current_time = time.monotonic()
