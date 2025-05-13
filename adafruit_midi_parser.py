@@ -676,21 +676,33 @@ class MIDIPlayer:
 
         current_time = time.monotonic()
         if current_time - self._last_event_time >= self._next_event_delay:
-            event = self._parser.next_event
+            event = self._parser.current_event
             if event:
-                if event["type"] == "note_on":
-                    self.on_note_on(event["note"], event["velocity"], event["channel"])
-                elif event["type"] == "note_off":
-                    self.on_note_off(event["note"], event["velocity"], event["channel"])
-                elif event["type"] == "tempo":
-                    self.on_tempo_change(event["tempo"])
-                elif event["type"] == "controller":
-                    self.on_controller(event["controller"], event["value"], event["channel"])
-                elif event["type"] == "program_change":
-                    self.on_program_change(event["program"], event["channel"])
-                elif event["type"] == "end_of_track":
-                    self.on_end_of_track(event["track"])
-                self._next_event_delay = self._parser.calculate_delay(event)
+                current_absolute_time = event["absolute"]
+                while (
+                    self._parser.current_event
+                    and self._parser.current_event["absolute"] == current_absolute_time
+                ):
+                    event = self._parser.next_event
+                    if event["type"] == "note_on":
+                        self.on_note_on(event["note"], event["velocity"], event["channel"])
+                    elif event["type"] == "note_off":
+                        self.on_note_off(event["note"], event["velocity"], event["channel"])
+                    elif event["type"] == "tempo":
+                        self.on_tempo_change(event["tempo"])
+                    elif event["type"] == "controller":
+                        self.on_controller(event["controller"], event["value"], event["channel"])
+                    elif event["type"] == "program_change":
+                        self.on_program_change(event["program"], event["channel"])
+                    elif event["type"] == "end_of_track":
+                        self.on_end_of_track(event["track"])
+                if self._parser.current_event:
+                    time_diff = self._parser.current_event["absolute"] - current_absolute_time
+                    self._next_event_delay = (time_diff / self._parser.ticks_per_beat) * (
+                        self._parser.tempo / 1000000
+                    )
+                else:
+                    self._next_event_delay = 0.1
                 self._last_event_time = current_time
             else:
                 self._playing = False
