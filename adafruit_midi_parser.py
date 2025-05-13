@@ -46,13 +46,13 @@ class MIDIParser:
     :param str filename: Path to the MIDI file
     """
 
-    def __init__(self, filename: str) -> None:
+    def __init__(self) -> None:
         """
         Initialize the MIDI parser.
 
         :param str filename: Path to the MIDI file
         """
-        self._filename: str = filename
+        self._filename: Optional[str] = None
         self._events: List[Dict[str, Any]] = []
         self._tempo: int = 500000  # Default tempo (microseconds per quarter note)
         self._ticks_per_beat: int = 480  # Default time division
@@ -188,7 +188,21 @@ class MIDIParser:
                 break
         return value, offset
 
-    def parse(self, debug: bool = False) -> bool:  # noqa: PLR0912 PLR0915 PLR0914
+    def clear(self) -> None:
+        """
+        Clear all parsed data and reset the parser state.
+        """
+        self._filename = None
+        self._events = []
+        self._tempo = 500000  # Default tempo
+        self._ticks_per_beat = 480  # Default division
+        self._current_event_index = 0
+        self._format_type = 0
+        self._num_tracks = 0
+        self._parsed = False
+        self._last_absolute_time = 0
+
+    def parse(self, filename: str, debug: bool = False) -> bool:  # noqa: PLR0912 PLR0915 PLR0914
         """
         Parse the MIDI file and extract events.
 
@@ -197,6 +211,8 @@ class MIDIParser:
         :rtype: bool
         :raises MIDIParseError: If the file doesn't exist or is not a valid MIDI file
         """
+        self.clear()
+        self._filename = filename
         try:  # noqa: PLR1702
             with open(self._filename, "rb") as file:
                 data = file.read()
