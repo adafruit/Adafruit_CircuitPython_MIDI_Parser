@@ -443,7 +443,7 @@ class MIDIParser:
                         offset += length
                     else:
                         raise MIDIParseError(
-                            f"Unknown event type: {hex(status)} at offset {offset-1}"
+                            f"Unknown event type: {hex(status)} at offset {offset - 1}"
                         )
                 offset = track_end
             self._events.sort(key=lambda x: x["absolute"])
