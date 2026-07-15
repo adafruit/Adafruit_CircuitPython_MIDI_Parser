@@ -80,6 +80,12 @@ class MIDIParser:
         """
         return self._tempo
 
+    @tempo.setter
+    def tempo(self, value: int) -> None:
+        if value <= 0:
+            raise ValueError("Tempo must be a positive number of microseconds per quarter note")
+        self._tempo = value
+
     @property
     def ticks_per_beat(self) -> int:
         """
@@ -151,6 +157,12 @@ class MIDIParser:
         :rtype: float
         """
         return 60000000 / self._tempo
+
+    @bpm.setter
+    def bpm(self, value: float) -> None:
+        if value <= 0:
+            raise ValueError("BPM must be a positive number")
+        self._tempo = round(60000000 / value)
 
     @property
     def note_count(self) -> int:
